@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { meadSystem } from './../equations/meadSystem'
-import { initialize } from './../reducers/projectReducer'
-import { appendProject, setSelected } from './../reducers/projectsReducer'
+import { addProject } from './../reducers/projectsReducer'
 
 const InitializeMead = (props) => {
+
   const [waterVolume, setWaterVolume] = useState(1)
   const [containerPressure, setContainerPressure] = useState(250)
   const [alcoholByVolume, setAlcoholByVolume] = useState(2)
@@ -26,10 +26,10 @@ const InitializeMead = (props) => {
     setSystem(currentMeadSystem)
   }
 
-  const addProject = async() => {
+  const addNewProject = () => {
     const currentMeadSystem = meadSystem(waterVolume, containerPressure, alcoholByVolume, 0)
-    const newProject = await props.initialize( currentMeadSystem, 0 )
-    props.appendProject( newProject )
+    props.addProject( currentMeadSystem, 0 )
+    props.history.push("/project")
   }
 
   const modifyField = (event) => {
@@ -70,15 +70,9 @@ const InitializeMead = (props) => {
       <li>water: {water} g</li>
       <li>ethanol: {ethanol} g</li>
       <li>carbondioxide+acids: {carbondioxide} g</li>
-      <input type="button" value="save" onClick={addProject}></input>
+      <input type="button" value="save" onClick={addNewProject}></input>
     </div>
   )
 }
 
-const mapStateToProps = (state) => {
-  return{
-    currentProject:state.currentProject,
-  }
-}
-
-export default connect(mapStateToProps, {initialize, appendProject, setSelected})(InitializeMead)
+export default connect(null, {addProject})(InitializeMead)

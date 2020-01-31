@@ -40,7 +40,7 @@ const config = {
       template: './public/index.html',
       filename: './index.html'
     }),
-    new UglifyJSPlugin()
+    //new UglifyJSPlugin()
   ],
   stats: {
     children:false

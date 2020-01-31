@@ -1,22 +1,41 @@
 import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 
+import Home from './components/home'
 import InitializeMead from './components/initializeMead'
-import EditMead from './components/editMead'
+import ProjectView from './components/projectView'
 import ProjectTabs from './components/projectTabs'
+
+import { loadFromLocal } from './reducers/projectsReducer'
+
+const InitializeMeadWithRouter = withRouter(InitializeMead)
 
 const App = (props) => {
   useEffect( ()=>{
-    console.log("start")
+    props.loadFromLocal()
   },[])
 
   return(
-    <div>
-      <ProjectTabs/>
-      <InitializeMead/>
-      <EditMead/>
-    </div>
+    <Router>
+      <div>
+        <ProjectTabs/>
+        <Link to="/new">Begin new project</Link>
+        <Route exact path="/">
+          <Home/>
+        </Route>
+
+        <Route path="/new">
+          <InitializeMeadWithRouter/>
+        </Route>
+        
+        <Route path="/project">
+          <ProjectView/>
+        </Route>
+        
+      </div>
+    </Router>
   )
 }
 
-export default connect(null,null)(App)
+export default connect(null,{loadFromLocal})(App)
