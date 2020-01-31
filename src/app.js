@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import InitializeMead from './components/initializeMead'
+import EditMead from './components/editMead'
+import ProjectTabs from './components/projectTabs'
 
 const App = (props) => {
   useEffect( ()=>{
@@ -10,13 +12,11 @@ const App = (props) => {
 
   return(
     <div>
-      <Router>
-        <Link to="/">main </Link><Link to="/new"> new user </Link><Link to="/login"> login </Link><br/>
-        <InitializeMead/>
-      </Router>
+      <ProjectTabs/>
+      <InitializeMead/>
+      <EditMead/>
     </div>
   )
 }
 
-
-export default App
+export default connect(null,null)(App)
