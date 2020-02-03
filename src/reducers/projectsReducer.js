@@ -3,18 +3,23 @@ import { uuid } from 'uuidv4'
 const initialState = {
   length: 0,
   selected: '',
+  activeIndex:0,
   items: [{}],
 }
 
-const saveToLocal = (state) => {
-  localStorage.setItem( "projects", JSON.stringify(state) )
+const saveToLocal = (newState) => {
+  localStorage.setItem( "projects", JSON.stringify(newState) )
 }
 
 const projectsReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
+
   if ( action.type === 'LOAD' ){
     newState = JSON.parse( localStorage.getItem( "projects" ) )
+    if( newState.selected === undefined ) newState.selected = 'home'
+    if( newState.activeIndex === undefined ) newState.activeIndex = 0
     return newState
+
   } else if (action.type === 'ADD') {
     newState.length++
     let newProject = JSON.parse(JSON.stringify(action.project))
@@ -27,16 +32,47 @@ const projectsReducer = (state = initialState, action) => {
     newState.selected = action.project.id
     saveToLocal(newState)
     return newState
+
   } else if (action.type === 'REMOVE') {
     newState.items = newState.items.filter(item => item.id !== action.id)
     saveToLocal(newState)
     return newState
+
   } else if (action.type === 'SETSELECTED') {
     newState.selected = action.selected
+    newState.activeIndex = action.activeIndex
+    
     saveToLocal(newState)
     return newState
+
   } else if (action.type === 'MODIFYSELECTED') {
     let selected = newState.items.find(item => item.id === action.id)
+    if( action.subtype === 'COMMENT' || action.subtype === 'HISTORY' ){
+      let entry = {
+        timestamp: action.timestamp,
+        content: action.content
+      };
+      if( action.subtype === 'COMMENT' ){
+        selected.comments = [
+          ...selected.comments,
+          entry
+        ]
+      } else{
+        selected.history = [
+          ...selected.history,
+          entry
+        ]
+      }
+    } else if( action.subtype === 'BOTTLEWEIGHT' ){
+      selected.bottleWeight = action.bottleWeight
+    }
+
+    newState.items = newState.items.filter(item => item.id != action.id)
+    newState.items = [
+      ...newState.items,
+      selected
+    ]
+    saveToLocal(newState)
     return newState
   }
   return state
@@ -73,10 +109,40 @@ export const removeProject = (id) => {
   }
 }
 
-export const setSelected = (id) => {
+export const setSelected = (id, activeIndex) => {
   return {
     type: 'SETSELECTED',
+    activeIndex,
     selected: id
+  }
+}
+
+export const addComment = (id, content) => {
+  return {
+    type: 'MODIFYSELECTED',
+    subtype: 'COMMENT',
+    timestamp: Date.now(),
+    content,
+    id
+  }
+}
+
+export const addHistory = (id, content) => {
+  return {
+    type: 'MODIFYSELECTED',
+    subtype: 'HISTORY',
+    timestamp: Date.now(),
+    content,
+    id
+  }
+}
+
+export const editBottleweight = (id, weight) => {
+  return {
+    type: 'MODIFYSELECTED',
+    subtype: 'BOTTLEWEIGHT',
+    id,
+    weight
   }
 }
 

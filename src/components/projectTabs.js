@@ -1,38 +1,51 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setSelected } from './../reducers/projectsReducer'
+import { Container, Segment, Tab } from 'semantic-ui-react'
+import 'fomantic-ui-css/semantic.css';
+import ProjectView from './projectView'
 
-const DisplayTab = (props) => {
-
-  const changeSelected = (event) => {
-    if (event.target.id !== props.selected && event.target.id !== '') {
-      props.setSelected(event.target.id)
+const ProjectTabs = (props) => {
+  const itemToMenuItem = (item) => {
+    let name = ""
+    if( item.name !== undefined ) name = item.name.slice(0,8)+"..."
+    if( item.id === props.projects.selected ) name = item.name
+    return {
+      menuItem: { key: item.id+'pane1', content: name },
+      key: item.id+'pane',
+      id: item.id,
     }
   }
 
-  if (props.item.id !== props.selected) {
-    return (
-      <li id={props.item.id} key={props.item.id} onClick={changeSelected}>{props.item.name}</li>
-    )
-  } else {
-    return (
-      <li id={props.item.id} key={props.item.id} onClick={changeSelected}><b>{props.item.name}</b></li>
-    )
+  const homepane = {
+    menuItem: { key: 'home', icon: 'home', content: 'Home'},
+    key: 'homepane',
+    id: 'home'
   }
-}
 
-const ProjectTabs = (props) => {
+  const newpane = {
+    menuItem: { key: 'new', icon: 'add', content: 'New'},
+    key: 'newpane',
+    id: 'new'
+  }
 
-  if (props.projects.length > 0) {
-    return (
-      <div>
-        <h1>Tabs</h1>
-        {props.projects.items.map(item => <DisplayTab item={item} selected={props.projects.selected} setSelected={props.setSelected} />)}
-        <br />
-      </div>
-    )
-  } else return (<div></div>)
+  const changeTab = (event,data) => {
+    const selected = data.activeIndex
+    props.setSelected( data.panes[selected].id, selected )
+  }
 
+  return(
+    <Tab 
+      panes={[
+        homepane,
+        ...props.projects.items.map( item => itemToMenuItem(item)),
+        newpane
+      ]}
+      activeIndex={props.projects.activeIndex}
+      menu={{ borderless: true, attached: false, tabular: false }}
+      renderActiveOnly={false} key='panes' onTabChange={changeTab}
+    />
+  )
 }
 
 const mapStateToProps = (state) => {

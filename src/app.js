@@ -1,21 +1,31 @@
 import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 
 import Home from './components/home'
 import InitializeMead from './components/initializeMead'
 import ProjectView from './components/projectView'
 import ProjectTabs from './components/projectTabs'
-
 import { loadFromLocal } from './reducers/projectsReducer'
 
-const InitializeMeadWithRouter = withRouter(InitializeMead)
+import { Container, Segment } from 'semantic-ui-react'
+import 'fomantic-ui-css/semantic.css';
 
 const App = (props) => {
   useEffect( ()=>{
     props.loadFromLocal()
   },[])
 
+  
+  return(
+    <div>
+      <Container>
+        <ProjectTabs/>
+        <Home/>
+        <ProjectView/>
+      </Container>
+    </div>
+  )
+  /*
   return(
     <Router>
       <div>
@@ -35,7 +45,13 @@ const App = (props) => {
         
       </div>
     </Router>
-  )
+  )*/
 }
 
-export default connect(null,{loadFromLocal})(App)
+const mapStateToProps = (state) => {
+  return {
+    projects: state.projects
+  }
+}
+
+export default connect(mapStateToProps,{loadFromLocal})(App)

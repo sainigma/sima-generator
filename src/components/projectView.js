@@ -1,21 +1,38 @@
 import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
+import { Container, Segment, Header, Icon } from 'semantic-ui-react'
+import Comments from './comments'
 
-const ProjectView = (props) => {
-  if( props.projects.selected!==''){
+const ProjectTitle = (props) => {
+  return (
+    <Header>
+      <Icon name='edit' />
+      <Header.Content>{props.selected.name}</Header.Content>
+    </Header>
+  )
+}
+
+const ProjectView = (props, ignores) => {
+  if( props.projects.selected!=='' && props.projects.selected!=='home' && props.projects.selected!=='new' ){
     const selected = props.projects.items.find( item => item.id === props.projects.selected )
     return(
-      <div>
-        <h1>Project view</h1>
-          <li>{selected.id}</li>
-          <li>{selected.name}</li>
-          <li>water: {selected.project.composition.water} litre(s)</li>
-          <li>ethanol: {selected.project.composition.ethanol} litre(s)</li>
-          <li>carbondioxide: {selected.project.composition.carbondioxide} litre(s)</li>
-      </div>
+      <Segment.Group horizontal>
+        <Segment>
+          Graph here
+        </Segment>
+        <Segment inverted color='orange'>
+            <ProjectTitle selected={selected}/>
+            <li>{selected.id}</li>
+            <li>water: {selected.project.composition.water} litre(s)</li>
+            <li>ethanol: {selected.project.composition.ethanol} litre(s)</li>
+            <li>carbondioxide: {selected.project.composition.carbondioxide} litre(s)</li>
+          <Comments/>
+        </Segment>
+      </Segment.Group>
+
     )
   }else{
-    return(<div></div>)
+    return(<></>)
   }
 }
 
