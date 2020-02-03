@@ -4,7 +4,7 @@ const initialState = {
   length: 0,
   selected: '',
   activeIndex:0,
-  items: [{}],
+  items: [],
 }
 
 const saveToLocal = (newState) => {
@@ -16,6 +16,7 @@ const projectsReducer = (state = initialState, action) => {
 
   if ( action.type === 'LOAD' ){
     newState = JSON.parse( localStorage.getItem( "projects" ) )
+    if( newState === null ) return state
     if( newState.selected === undefined ) newState.selected = 'home'
     if( newState.activeIndex === undefined ) newState.activeIndex = 0
     return newState

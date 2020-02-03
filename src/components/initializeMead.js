@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { Container, Segment, Header, Icon } from 'semantic-ui-react'
 import { meadSystem } from './../equations/meadSystem'
 import { addProject } from './../reducers/projectsReducer'
 
@@ -29,7 +30,6 @@ const InitializeMead = (props) => {
   const addNewProject = () => {
     const currentMeadSystem = meadSystem(waterVolume, containerPressure, alcoholByVolume, 0)
     props.addProject( currentMeadSystem, 0 )
-    props.history.push("/project")
   }
 
   const modifyField = (event) => {
@@ -54,25 +54,37 @@ const InitializeMead = (props) => {
     setCarbondioxideToRelease(currentMeadSystem.carbondioxideToRelease)
   }
 
-  return (
-    <div>
-      <h1>Init view</h1>
-      <label>Container volume: <input type="range" name='V' min="0.3" max="2" step="0.1" value={waterVolume} onChange={modifyField}></input> {waterVolume} litres </label><br />
-      <label>Container max pressure: <input type="range" name='P' min="200" max="1280" value={containerPressure} onChange={modifyField}></input> {containerPressure} KPa </label><br />
-      <label>Alcohol by volume: <input type="range" min="0.1" max="4" step="0.1" name='ABV' value={alcoholByVolume} onChange={modifyField}></input> {alcoholByVolume} %</label><br />
-      <br />
-      <h3>Recipe</h3>
-      <li>water: {water} g</li>
-      <li>sugar: {sugar} g</li>
-      <li>carbondioxide to release before bottling: {carbondioxideToRelease} g</li>
-      <h3>Final composition</h3>
-      <li>pressure: {truePressure} kPa</li>
-      <li>water: {water} g</li>
-      <li>ethanol: {ethanol} g</li>
-      <li>carbondioxide+acids: {carbondioxide} g</li>
-      <input type="button" value="save" onClick={addNewProject}></input>
-    </div>
-  )
+  if( props.selected === 'new' ){
+    return (
+      <Segment.Group horizontal>
+        <Segment>Instructions here</Segment>
+        <Segment inverted color='orange'>
+          <h1>Init view</h1>
+          <label>Container volume: <input type="range" name='V' min="0.3" max="2" step="0.1" value={waterVolume} onChange={modifyField}></input> {waterVolume} litres </label><br />
+          <label>Container max pressure: <input type="range" name='P' min="200" max="600" value={containerPressure} onChange={modifyField}></input> {containerPressure} KPa </label><br />
+          <label>Alcohol by volume: <input type="range" min="0.1" max="4" step="0.1" name='ABV' value={alcoholByVolume} onChange={modifyField}></input> {alcoholByVolume} %</label><br />
+          <br />
+          <h3>Recipe</h3>
+          <li>water: {water} g</li>
+          <li>sugar: {sugar} g</li>
+          <li>carbondioxide to release before bottling: {carbondioxideToRelease} g</li>
+          <h3>Final composition</h3>
+          <li>pressure: {truePressure} kPa</li>
+          <li>water: {water} g</li>
+          <li>ethanol: {ethanol} g</li>
+          <li>carbondioxide+acids: {carbondioxide} g</li>
+          <input type="button" value="save" onClick={addNewProject}></input>
+        </Segment>
+      </Segment.Group>
+    )
+  }else return (<></>)
+
 }
 
-export default connect(null, {addProject})(InitializeMead)
+const mapStateToProps = (state) => {
+  return {
+    selected: state.projects.selected
+  }
+}
+
+export default connect(mapStateToProps, {addProject})(InitializeMead)

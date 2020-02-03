@@ -20,7 +20,7 @@ const ProjectView = (props, ignores) => {
         <Segment>
           Graph here
         </Segment>
-        <Segment inverted color='orange'>
+        <Segment inverted color='orange' style={{borderTopRightRadius: '1.5em',borderBottomRightRadius: '1.5em'}}>
             <ProjectTitle selected={selected}/>
             <li>{selected.id}</li>
             <li>water: {selected.project.composition.water} litre(s)</li>

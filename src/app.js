@@ -22,6 +22,7 @@ const App = (props) => {
         <ProjectTabs/>
         <Home/>
         <ProjectView/>
+        <InitializeMead/>
       </Container>
     </div>
   )
