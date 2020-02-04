@@ -35,7 +35,8 @@ const ProjectTabs = (props) => {
   }
 
   return(
-    <Tab 
+    <Segment basic>
+    <Tab style={{width:'100%'}}
       panes={[
         homepane,
         ...props.projects.items.map( item => itemToMenuItem(item)),
@@ -44,7 +45,7 @@ const ProjectTabs = (props) => {
       activeIndex={props.projects.activeIndex}
       menu={{ borderless: true, attached: false, tabular: false }}
       renderActiveOnly={false} key='panes' onTabChange={changeTab}
-    />
+    /></Segment>
   )
 }
 

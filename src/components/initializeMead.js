@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Container, Segment, Header, Icon } from 'semantic-ui-react'
+import { Container, Segment, Header, Icon, List, Button } from 'semantic-ui-react'
+import { Slider } from 'react-semantic-ui-range'
 import { meadSystem } from './../equations/meadSystem'
 import { addProject } from './../reducers/projectsReducer'
+import Instructions from './instructions'
+import Recipe from './recipe'
 
 const InitializeMead = (props) => {
 
@@ -55,6 +58,45 @@ const InitializeMead = (props) => {
   }
 
   if( props.selected === 'new' ){
+    return(
+      <Segment.Group horizontal style={{width:'100%',border:'none',borderRadius:'1.5em', boxShadow:'10px 10px 20px black', opacity:'0.9'}}>
+
+        <Instructions/>
+
+        <Segment inverted color='orange' style={{borderTopRightRadius: '1.5em',borderBottomRightRadius: '1.5em',width:'50%'}}>
+          <Header>Initialize new project</Header>
+          <Segment.Group >
+              <Segment basic>
+                <Header as='h4' floated='left'>Container volume</Header>
+                <Header as='h4' floated='right'>{waterVolume.toPrecision(2)} litres</Header>
+              </Segment>
+              <Segment basic>
+                <Slider value={waterVolume} settings={ { start: waterVolume, min: 0.3, max: 10, step:0.1, onChange: value => { setWaterVolume(value) } } }/>
+              </Segment>
+
+              <Segment basic>
+                <Header as='h4' floated='left'>Bottle max pressure</Header>
+                <Header as='h4' floated='right'>{containerPressure} kPa</Header>
+              </Segment>
+              <Segment basic>
+                <Slider value={containerPressure} settings={ { start: containerPressure, min: 200, max: 600, step:1, onChange: value => { setContainerPressure(value) } } }/>
+              </Segment>
+
+              <Segment basic>
+                <Header as='h4' floated='left'>Alcohol by volume</Header>
+                <Header as='h4' floated='right'>{alcoholByVolume.toPrecision(2)} %</Header>
+              </Segment>
+              <Segment basic>
+                <Slider value={alcoholByVolume} settings={ { start: alcoholByVolume, min: 0.1, max: 4, step:0.1, onChange: value => { setAlcoholByVolume(value) } } }/>
+              </Segment>
+          </Segment.Group>
+          <Recipe water={water} sugar={sugar} ethanol={ethanol} carbondioxide={carbondioxide} carbondioxideToRelease={carbondioxideToRelease}/>
+          <Button color='red' content='Add Project' labelPosition='left' icon='save' primary />
+        </Segment>
+      </Segment.Group>
+    )
+
+
     return (
       <Segment.Group horizontal>
         <Segment>Instructions here</Segment>
@@ -88,3 +130,9 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {addProject})(InitializeMead)
+
+/*
+          <Segment>
+
+          </Segment>
+*/

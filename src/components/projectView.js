@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
 import { Container, Segment, Header, Icon } from 'semantic-ui-react'
 import Comments from './comments'
+import GraphView from './graphView'
 
 const ProjectTitle = (props) => {
   return (
@@ -16,11 +17,11 @@ const ProjectView = (props, ignores) => {
   if( props.projects.selected!=='' && props.projects.selected!=='home' && props.projects.selected!=='new' ){
     const selected = props.projects.items.find( item => item.id === props.projects.selected )
     return(
-      <Segment.Group horizontal>
-        <Segment>
-          Graph here
+      <Segment.Group horizontal style={{width:'100%'}}>
+        <Segment style={{borderTopLeftRadius: '1.5em',borderBottomLeftRadius: '1.5em',width:'50%'}}>
+          <GraphView/>
         </Segment>
-        <Segment inverted color='orange' style={{borderTopRightRadius: '1.5em',borderBottomRightRadius: '1.5em'}}>
+        <Segment inverted color='orange' style={{borderTopRightRadius: '1.5em',borderBottomRightRadius: '1.5em',width:'50%'}}>
             <ProjectTitle selected={selected}/>
             <li>{selected.id}</li>
             <li>water: {selected.project.composition.water} litre(s)</li>

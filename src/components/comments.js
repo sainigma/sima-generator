@@ -21,9 +21,8 @@ const DisplayComment = (props) => {
     dateString = "Today, " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
   }
 
-
   return (
-    <Comment>
+    <Comment style={{width:'50%'}}>
       <Comment.Avatar src='./meadAvatar.png' />
       <Comment.Content>
         <Comment.Author as='a'>You</Comment.Author>

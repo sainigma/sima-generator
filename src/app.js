@@ -17,9 +17,9 @@ const App = (props) => {
 
   
   return(
-    <div>
-      <Container>
-        <ProjectTabs/>
+    <div style={{width:'100%'}}>
+      <ProjectTabs/>
+      <Container style={{width:'80%'}}>
         <Home/>
         <ProjectView/>
         <InitializeMead/>
