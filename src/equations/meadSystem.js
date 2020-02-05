@@ -34,6 +34,7 @@ export const meadSystem = (waterVolume, maxPressureKPa, alcoholByVolume, release
     pressure: currentPressure,
     acidity: acidity,
     carbondioxideToRelease: carbondioxideToReleaseN * molarmass.carbondioxide,
+    carbondioxideProductionTotal: carbondioxideN * molarmass.carbondioxide,
     composition: {
       water: (waterN - basemoles) * molarmass.water,
       ethanol: ethanolN * molarmass.ethanol,

@@ -36,6 +36,7 @@ const projectsReducer = (state = initialState, action) => {
 
   } else if (action.type === 'REMOVE') {
     newState.items = newState.items.filter(item => item.id !== action.id)
+    newState.selected = 'home'
     saveToLocal(newState)
     return newState
 
@@ -59,6 +60,9 @@ const projectsReducer = (state = initialState, action) => {
           entry
         ]
       } else{
+        if(selected.history.length===0){
+          selected.bottleWeight = action.content
+        }
         selected.history = [
           ...selected.history,
           entry
@@ -128,11 +132,11 @@ export const addComment = (id, content) => {
   }
 }
 
-export const addHistory = (id, content) => {
+export const addHistory = (id, timestamp, content) => {
   return {
     type: 'MODIFYSELECTED',
     subtype: 'HISTORY',
-    timestamp: Date.now(),
+    timestamp,
     content,
     id
   }

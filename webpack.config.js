@@ -6,9 +6,8 @@ const CopyWebPackPlugin = require('copy-webpack-plugin')
 const config = {
   entry: {
     main: ['@babel/polyfill','./src/index.js',],
-    backgroundMagic: ['./src/backgroundMagic.js']
+    //backgroundMagic: ['./src/backgroundMagic.js']
   },
-  //entry: ['@babel/polyfill','./src/index.js',],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].js',
@@ -45,7 +44,7 @@ const config = {
       template: './public/index.html',
       filename: './index.html'
     }),
-    new UglifyJSPlugin(),
+    //new UglifyJSPlugin(),
     new CopyWebPackPlugin([
       {from:'./public/textures',to:'textures'}
     ]),

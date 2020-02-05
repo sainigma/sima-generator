@@ -43,7 +43,7 @@ const Instructions = (props) => {
         <List.Item>4. Once the weight has dropped the required amount, filter out the lemon slices and pour the container to the final vessel. Add raisins to your liking. Seal the vessel.</List.Item>
         <List.Item>5. Make an estimation based on the project view's graph on when to retard the process[4].</List.Item>
         <List.Item>6. Retard the process by placing the vessel in fridge.</List.Item>
-        <List.Item>7. Glara vappen!</List.Item>
+        <List.Item>7. Klara vappen!</List.Item>
       </List>
     )
   }

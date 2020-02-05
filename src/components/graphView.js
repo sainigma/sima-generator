@@ -1,33 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import 'react-vis/dist/style.css'
-import { FlexibleWidthXYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries } from 'react-vis'
+import { FlexibleWidthXYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, MarkSeries, DiscreteColorLegend } from 'react-vis'
+import Instructions from './instructions'
+const GraphView = (props) => {
+  const selected = props.projects.items.find( item => item.id === props.projects.selected )
 
-const GraphView = (props, ignores) => {
+  if( selected.history.length > 0 ){
 
-  useEffect( ()=>{
-    console.log( props.projects.items[0].project.carbondioxideToRelease )
-  },[])
+    const xOffset = selected.history[0].timestamp
+    const data = selected.history.map( (item) => { return { x:( (item.timestamp-xOffset)/3600000 ), y:item.content } } )
 
-  const data = [
-    {x: 0, y: 1500},
-    {x: 24, y: 1423},
-    {x: 48, y: 1200}
-  ]
+    const minimumWeight = selected.history[0].content - selected.project.carbondioxideToRelease
+    const maxTime = data.length > 1 ? data[ data.length -1 ].x : 24
+    const carbondioxideLimit =  [{x:0, y: minimumWeight}, {x: maxTime, y: minimumWeight}]
+    console.log(maxTime)
 
-  const carbondioxideLimit = [
-    {x: 0, y: 1350},
-    {x: 48, y: 1350}
-  ]
-
-  return (
-    <FlexibleWidthXYPlot height={480}>
-      <HorizontalGridLines/>
-      <LineSeries data={data} />
-      <LineSeries data={carbondioxideLimit} />
-      <XAxis />
-      <YAxis />
-    </FlexibleWidthXYPlot>
+    return (
+      <FlexibleWidthXYPlot height={400} yDomain={[minimumWeight*0.99, selected.history[0].content*1.01]}>
+        <HorizontalGridLines/>
+        <MarkSeries data={data}/>
+        <LineSeries color='red' data={carbondioxideLimit} />
+        <XAxis title='Time [h]'/>
+        <YAxis title='Weight [g]'/>
+      </FlexibleWidthXYPlot>
+    )
+  }else return (
+    <>
+      <Instructions basic={true}/>
+    </>
+    
   )
 }
 

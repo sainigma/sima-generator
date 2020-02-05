@@ -9,7 +9,7 @@ const Recipe = (props) => {
       <List>
         <List.Item>Water: {props.water.toPrecision(4)} grams</List.Item>
         <List.Item>Sugar: {props.sugar.toPrecision(3)} grams</List.Item>
-        <List.Item>Lemons: {(props.water*0.4*0.001).toPrecision(2)} pieces</List.Item>
+        <List.Item>Lemons: {(props.water*0.4*0.001).toPrecision(2)}</List.Item>
         <List.Item>Raisins to taste</List.Item>
       </List>
       <Header>Final composition:</Header>
