@@ -39,9 +39,9 @@ var FresnelShader = {
 		"	vec3 I = worldPosition.xyz - cameraPosition;",
 
 		"	vReflect = reflect( I, worldNormal );",
-		"	vRefract[0] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.8 );",
-		"	vRefract[1] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.8 );",
-		"	vRefract[2] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.8 );",
+		"	vRefract[0] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.98 );",
+		"	vRefract[1] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.98 );",
+		"	vRefract[2] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.98 );",
 		"	vReflectionFactor = mFresnelBias + mFresnelScale * pow( 1.0 + dot( normalize( I ), worldNormal ), mFresnelPower );",
 
 		"	gl_Position = projectionMatrix * mvPosition;",

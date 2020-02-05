@@ -1,12 +1,12 @@
 const path = require('path')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const CopyWebPackPlugin = require('copy-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const config = {
   entry: {
     main: ['@babel/polyfill','./src/index.js',],
-    //backgroundMagic: ['./src/backgroundMagic.js']
+    backgroundMagic: ['./src/backgroundMagic.js']
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -46,7 +46,8 @@ const config = {
     }),
     //new UglifyJSPlugin(),
     new CopyWebPackPlugin([
-      {from:'./public/textures',to:'textures'}
+      {from:'./public/textures',to:'textures'},
+      {from:'./public/models',to:'models'}
     ]),
   ],
   stats: {
