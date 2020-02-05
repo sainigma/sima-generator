@@ -12,15 +12,19 @@ const GraphView = (props) => {
     const data = selected.history.map( (item) => { return { x:( (item.timestamp-xOffset)/3600000 ), y:item.content } } )
 
     const minimumWeight = selected.history[0].content - selected.project.carbondioxideToRelease
+    const absoluteMinimumWeight = selected.history[0].content - selected.project.carbondioxideProductionTotal
+    console.log( selected.project.carbondioxideToRelease )
+    console.log( selected.project.carbondioxideProductionTotal )
     const maxTime = data.length > 1 ? data[ data.length -1 ].x : 24
     const carbondioxideLimit =  [{x:0, y: minimumWeight}, {x: maxTime, y: minimumWeight}]
-    console.log(maxTime)
-
+    const carbondioxideAbsoluteLimit = [{x:0, y: absoluteMinimumWeight}, {x: maxTime, y: absoluteMinimumWeight}]
+    
     return (
-      <FlexibleWidthXYPlot height={400} yDomain={[minimumWeight*0.99, selected.history[0].content*1.01]}>
+      <FlexibleWidthXYPlot height={400} yDomain={[absoluteMinimumWeight*0.99, selected.history[0].content*1.001]}>
         <HorizontalGridLines/>
         <MarkSeries data={data}/>
-        <LineSeries color='red' data={carbondioxideLimit} />
+        <LineSeries color='blue' data={carbondioxideLimit} />
+        <LineSeries color='red' data={carbondioxideAbsoluteLimit} />
         <XAxis title='Time [h]'/>
         <YAxis title='Weight [g]'/>
       </FlexibleWidthXYPlot>

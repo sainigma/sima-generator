@@ -36,7 +36,8 @@ const projectsReducer = (state = initialState, action) => {
 
   } else if (action.type === 'REMOVE') {
     newState.items = newState.items.filter(item => item.id !== action.id)
-    newState.selected = 'home'
+    newState.selected = 'new'
+    newState.length = newState.items.length
     saveToLocal(newState)
     return newState
 
