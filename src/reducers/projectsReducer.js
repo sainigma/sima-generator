@@ -1,10 +1,11 @@
 import { uuid } from 'uuidv4'
-
+import { exampleProject } from './../misc/exampleProject'
 const initialState = {
   length: 0,
-  selected: '',
+  selected: 'home',
   activeIndex:0,
-  items: [],
+  items: [ exampleProject ],
+  printView: false
 }
 
 const saveToLocal = (newState) => {
@@ -19,6 +20,7 @@ const projectsReducer = (state = initialState, action) => {
     if( newState === null ) return state
     if( newState.selected === undefined ) newState.selected = 'home'
     if( newState.activeIndex === undefined ) newState.activeIndex = 0
+    newState.printView = false
     return newState
 
   } else if (action.type === 'ADD') {
@@ -71,6 +73,8 @@ const projectsReducer = (state = initialState, action) => {
       }
     } else if( action.subtype === 'BOTTLEWEIGHT' ){
       selected.bottleWeight = action.bottleWeight
+    } else if( action.subtype === 'NEWNAME' ){
+      selected.name = action.name
     }
 
     newState.items = newState.items.filter(item => item.id != action.id)
@@ -80,6 +84,10 @@ const projectsReducer = (state = initialState, action) => {
     ]
     saveToLocal(newState)
     return newState
+  } else if (action.type === 'TOGGLEPRINTVIEW') {
+    newState.printView = !newState.printView
+    saveToLocal(newState)
+    return newState
   }
   return state
 }
@@ -87,7 +95,7 @@ const projectsReducer = (state = initialState, action) => {
 const generateProject = (project, bottleWeight) => {
   return {
     id: uuid(),
-    name: 'New Mead Project ',
+    name: 'New Sima Project ',
     history: [],
     comments: [],
     project,
@@ -152,4 +160,21 @@ export const editBottleweight = (id, weight) => {
   }
 }
 
+export const editName = (id, name) => {
+  console.log(id)
+  console.log(name)
+  return {
+    type: 'MODIFYSELECTED',
+    subtype: 'NEWNAME',
+    id,
+    name
+  }
+} 
+
+export const togglePrintView = () => {
+  console.log("moi")
+  return {
+    type: 'TOGGLEPRINTVIEW',
+  }
+}
 export default projectsReducer

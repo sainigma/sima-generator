@@ -5,6 +5,7 @@ import Home from './components/home'
 import InitializeMead from './components/initializeMead'
 import ProjectView from './components/projectView'
 import ProjectTabs from './components/projectTabs'
+import PrintView from './components/printView'
 import { loadFromLocal } from './reducers/projectsReducer'
 
 import { Container, Segment } from 'semantic-ui-react'
@@ -15,38 +16,20 @@ const App = (props) => {
     props.loadFromLocal()
   },[])
 
-  
-  return(
-    <div style={{width:'100%'}}>
-      <ProjectTabs/>
-      <Container style={{width:'80%'}}>
-        <Home/>
-        <ProjectView/>
-        <InitializeMead/>
-      </Container>
-    </div>
-  )
-  /*
-  return(
-    <Router>
-      <div>
+  if( !props.projects.printView ){
+    return(
+      <div style={{width:'100%'}}>
         <ProjectTabs/>
-        <Link to="/new">Begin new project</Link>
-        <Route exact path="/">
+        <Container style={{width:'80%'}}>
           <Home/>
-        </Route>
-
-        <Route path="/new">
-          <InitializeMeadWithRouter/>
-        </Route>
-        
-        <Route path="/project">
           <ProjectView/>
-        </Route>
-        
+          <InitializeMead/>
+        </Container>
       </div>
-    </Router>
-  )*/
+    )
+  }else return(
+    <PrintView/>
+  )
 }
 
 const mapStateToProps = (state) => {

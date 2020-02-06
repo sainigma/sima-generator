@@ -11,7 +11,7 @@ const Instructions = (props) => {
       {key:'1RecipeNote', ignore:'yes', content:"[1] PET bottles can handle values greater than 1000kPa, but using such high values isn't advised. Even if the vessel can handle the pressure, the mixture will violently decarbonize and escape when the vessel is opened."},
       {key:'2RecipeNote', ignore:'no', content:"[2] Alternatively you can use honey, use slightly larger amount since only ~70% of it is sugar."},
       {key:'3RecipeNote', ignore:'no', content:"[3] An airtight seal is required, since fermentation occurs only in anaerobic conditions."},
-      {key:'4RecipeNote', ignore:'no', content:"[4] These equations presume 100% conversion of sugar. This will make for a really bad mead, so retard the process before all sugar is gone!"}
+      {key:'4RecipeNote', ignore:'no', content:"[4] These equations presume 100% conversion of sugar. This will make for a really bad sima, so retard the process before all sugar is gone!"}
     ]
 
     return (
@@ -48,11 +48,27 @@ const Instructions = (props) => {
     )
   }
 
+  const NoLogsYet = (props) => {
+    if( props.historyLength === 0 ){
+      return(
+        <Header>No logs yet!</Header>
+      )
+    }else{
+      return(
+        <></>
+      )
+    }
+
+  }
+
   if( props.basic != null ){return(
     <Segment>
+      <NoLogsYet historyLength={props.historyLength}/>
       <Header>Instructions</Header>
       <InstructionList/>
       <InstructionNotes ignore={"yes"}/>
+      <div className="text"><span style={{color:'blue'}}>blue</span> line: fermentation will never exceed max pressure in room temperature</div>
+      <div className="text"><span style={{color:'red'}}>red</span> line: 100% of sugar has been converted, yikes!</div>
     </Segment>
   )} else return(
     <Segment>

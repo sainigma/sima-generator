@@ -76,7 +76,7 @@ const InitializeMead = (props) => {
                 <Header as='h4' floated='right'>{alcoholByVolume.toPrecision(2)} %</Header>
               </Segment>
               <Segment basic>
-                <Slider value={alcoholByVolume} settings={ { start: alcoholByVolume, min: 0.1, max: 4, step:0.1, onChange: value => { setAlcoholByVolume(value); updateMead(waterVolume,containerPressure,value) } } }/>
+                <Slider value={alcoholByVolume} settings={ { start: alcoholByVolume, min: 0.1, max: 10, step:0.1, onChange: value => { setAlcoholByVolume(value); updateMead(waterVolume,containerPressure,value) } } }/>
               </Segment>
           </Segment.Group>
           <Recipe water={water} sugar={sugar} ethanol={ethanol} carbondioxide={carbondioxide} carbondioxideToRelease={carbondioxideToRelease}/>

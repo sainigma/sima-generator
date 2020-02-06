@@ -14,16 +14,24 @@ const DisplayComment = (props) => {
   const dateNow = new Date(Date.now())
   const date = new Date(props.timestamp)
 
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
   if (date.getMonth() == dateNow.getMonth() &&
-    date.getDay() == dateNow.getDay() &&
+    date.getDate() == dateNow.getDate() &&
     date.getYear() == dateNow.getYear()
   ) {
     dateString = "Today, " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+  }else{
+    const endings = ['st','nd','rd','th']
+    let ending = ''
+    if( date.getDate < 4) ending = endings[ date.getDate -1 ]
+    else ending = endings[3]
+    dateString = date.getDate() + ending + ' of ' + months[date.getMonth()] + '. ' + ( date.getYear() + 1900 ) +', ' + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
   }
 
   return (
     <Comment style={{width:'50%'}}>
-      <Comment.Avatar src='./meadAvatar.png' />
+      <Comment.Avatar src='/textures/avatar.png' />
       <Comment.Content>
         <Comment.Author as='a'>You</Comment.Author>
         <Comment.Metadata>

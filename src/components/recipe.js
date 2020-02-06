@@ -4,7 +4,7 @@ import { Container, Segment, Header, Icon, List, Button } from 'semantic-ui-reac
 const Recipe = (props) => {
   return (
     <>
-    <Segment>
+    <Segment style={ props.style ? props.style : null }>
       <Header>Recipe:</Header>
       <List>
         <List.Item>Water: {props.water.toPrecision(4)} grams</List.Item>

@@ -4,37 +4,43 @@ import 'react-vis/dist/style.css'
 import { FlexibleWidthXYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, MarkSeries, DiscreteColorLegend } from 'react-vis'
 import Instructions from './instructions'
 const GraphView = (props) => {
-  const selected = props.projects.items.find( item => item.id === props.projects.selected )
+  const selected = props.projects.items.find(item => item.id === props.projects.selected)
+  if( typeof(selected) === 'undefined' ){
+    return <></>
+  }
 
-  if( selected.history.length > 0 ){
+  if (selected.history.length > 0 && !props.showInstructions) {
 
     const xOffset = selected.history[0].timestamp
-    const data = selected.history.map( (item) => { return { x:( (item.timestamp-xOffset)/3600000 ), y:item.content } } )
+    const data = selected.history.map((item) => { return { x: ((item.timestamp - xOffset) / 3600000), y: item.content } })
 
     const minimumWeight = selected.history[0].content - selected.project.carbondioxideToRelease
     const absoluteMinimumWeight = selected.history[0].content - selected.project.carbondioxideProductionTotal
-    console.log( selected.project.carbondioxideToRelease )
-    console.log( selected.project.carbondioxideProductionTotal )
-    const maxTime = data.length > 1 ? data[ data.length -1 ].x : 24
-    const carbondioxideLimit =  [{x:0, y: minimumWeight}, {x: maxTime, y: minimumWeight}]
-    const carbondioxideAbsoluteLimit = [{x:0, y: absoluteMinimumWeight}, {x: maxTime, y: absoluteMinimumWeight}]
-    
+    console.log(selected.project.carbondioxideToRelease)
+    console.log(selected.project.carbondioxideProductionTotal)
+    const maxTime = data.length > 1 ? data[data.length - 1].x : 24
+    const carbondioxideLimit = [{ x: 0, y: minimumWeight }, { x: maxTime, y: minimumWeight }]
+    const carbondioxideAbsoluteLimit = [{ x: 0, y: absoluteMinimumWeight }, { x: maxTime, y: absoluteMinimumWeight }]
+
     return (
-      <FlexibleWidthXYPlot height={400} yDomain={[absoluteMinimumWeight*0.99, selected.history[0].content*1.001]}>
-        <HorizontalGridLines/>
-        <MarkSeries data={data}/>
+      <FlexibleWidthXYPlot height={400} yDomain={[absoluteMinimumWeight * 0.99, selected.history[0].content * 1.001]}>
+        <HorizontalGridLines />
+        <MarkSeries data={data} />
+        <LineSeries data={data} />
         <LineSeries color='blue' data={carbondioxideLimit} />
         <LineSeries color='red' data={carbondioxideAbsoluteLimit} />
-        <XAxis title='Time [h]'/>
-        <YAxis title='Weight [g]'/>
+        <XAxis title='Time [h]' />
+        <YAxis title='Weight [g]' />
       </FlexibleWidthXYPlot>
     )
-  }else return (
-    <>
-      <Instructions basic={true}/>
-    </>
-    
-  )
+  } else {
+    if( !props.showInstructions ) props.toggleInstructions()
+    return (
+      <>
+        <Instructions basic={true} historyLength={selected.history.length}/>
+      </>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {

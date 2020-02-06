@@ -25,6 +25,7 @@ const WeightControls = (props) => {
     }
     if( selectedWeight !== '' && secretTime > 0 ){
       props.addHistory(props.projects.selected, secretTime, selectedWeight)
+      props.setShowInstructions(false)
     }
   }
 
