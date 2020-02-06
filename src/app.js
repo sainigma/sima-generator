@@ -18,7 +18,7 @@ const App = (props) => {
 
   if( !props.projects.printView ){
     return(
-      <div style={{width:'100%'}}>
+      <div style={{width:'100%', height:'100%'}}>
         <ProjectTabs/>
         <Container style={{width:'80%'}}>
           <Home/>

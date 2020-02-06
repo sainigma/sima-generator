@@ -38,6 +38,7 @@ const init = () => {
   scene.add(ambientLight)
 
   document.addEventListener('mousemove', onPointerMove, false)
+  window.addEventListener('resize', onWindowResize, false)
 }
 
 const addBottle = () => {
@@ -160,6 +161,12 @@ const onPointerMove = (event) => {
     longitude = (initialMouseX - clientX) * 0.1
     latitude = (initialMouseY - clientY) * 0.1
   }
+}
+
+const onWindowResize = () => {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize( window.innerWidth, window.innerHeight )
 }
 
 const animate = () => {
