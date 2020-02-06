@@ -1,8 +1,8 @@
 const path = require('path')
+const webPack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const CopyWebPackPlugin = require('copy-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-
 const config = {
   entry: {
     main: ['@babel/polyfill','./src/index.js',],
@@ -44,7 +44,11 @@ const config = {
       template: './public/index.html',
       filename: './index.html'
     }),
-    //new UglifyJSPlugin(),
+    new UglifyJSPlugin(),
+    new webPack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
+    }),
     new CopyWebPackPlugin([
       {from:'./public/textures',to:'textures'},
       {from:'./public/models',to:'models'}

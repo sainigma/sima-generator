@@ -31,7 +31,7 @@ const DisplayComment = (props) => {
 
   return (
     <Comment style={{width:'50%'}}>
-      <Comment.Avatar src='/textures/avatar.png' />
+      <Comment.Avatar src='textures/avatar.png' />
       <Comment.Content>
         <Comment.Author as='a'>You</Comment.Author>
         <Comment.Metadata>
